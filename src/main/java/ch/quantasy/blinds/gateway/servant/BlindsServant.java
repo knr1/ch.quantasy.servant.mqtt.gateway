@@ -8,7 +8,6 @@ package ch.quantasy.blinds.gateway.servant;
 import ch.quantasy.blinds.manager.BlindsDefinition;
 import ch.quantasy.gateway.service.device.dualRelay.DualRelayServiceContract;
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
-import ch.quantasy.mqtt.gateway.client.MessageReceiver;
 import ch.quantasy.tinkerforge.device.TinkerforgeDeviceClass;
 import ch.quantasy.tinkerforge.device.dualRelay.DeviceMonoflopParameters;
 import ch.quantasy.tinkerforge.device.dualRelay.DeviceSelectedState;
