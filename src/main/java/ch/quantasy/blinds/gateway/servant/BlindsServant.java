@@ -47,20 +47,22 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
             if (blindsAction.getDirection() == BlindsAction.Direction.up) {
                 DeviceState desiredState = new DeviceState(true, false);
                 synchronized (synchronizationObject) {
-                    if (this.state.equals(desiredState)) {
+                    if (this.state != null && this.state.equals(desiredState)) {
                         return;
                     }
-                    while (this.state.getRelay1()) {
+                    while (this.state == null || this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, false);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
-                    while (this.state.getRelay2()) {
+                    Thread.sleep(50);
+                    while (this.state == null || this.state.getRelay2()) {
                         DeviceSelectedState directionState = new DeviceSelectedState((short) 2, false);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
                         synchronizationObject.wait(1000);
                     }
-                    while (!this.state.getRelay1()) {
+                    Thread.sleep(50);
+                    while (this.state == null || !this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, true);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
@@ -73,20 +75,22 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
             if (blindsAction.getDirection() == BlindsAction.Direction.down) {
                 DeviceState desiredState = new DeviceState(true, true);
                 synchronized (synchronizationObject) {
-                    if (this.state.equals(desiredState)) {
+                    if (this.state != null && this.state.equals(desiredState)) {
                         return;
                     }
-                    while (this.state.getRelay1()) {
+                    while (this.state == null || this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, false);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
-                    while (!this.state.getRelay2()) {
+                    Thread.sleep(50);
+                    while (this.state == null || !this.state.getRelay2()) {
                         DeviceSelectedState directionState = new DeviceSelectedState((short) 2, true);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
                         synchronizationObject.wait(1000);
                     }
-                    while (!this.state.getRelay1()) {
+                    Thread.sleep(50);
+                    while (this.state == null || !this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, true);
                         addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
