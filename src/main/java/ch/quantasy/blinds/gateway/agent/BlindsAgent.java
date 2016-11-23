@@ -78,7 +78,7 @@ public class BlindsAgent {
         blindsContractMap.put("EG-03", new BlindsServantContract("BlindsServant", "EG-03"));
         blindsContractMap.put("EG-04", new BlindsServantContract("BlindsServant", "EG-04"));
 
-        gatewayClient.subscribe("WebView/RemoteSwitch/event/touched/blinds/#", new MessageReceiver() {
+        gatewayClient.subscribe("WebView/RemoteSwitch/E/touched/blinds/#", new MessageReceiver() {
             @Override
             public void messageReceived(String topic, byte[] mm) throws Exception {
 
