@@ -87,7 +87,7 @@ public class BlindsAgent {
                 BlindsServantContract contract = blindsContractMap.get(parameter.getBlindsId());
                 if (contract != null) {
                     BlindsAction action = new BlindsAction(BlindsAction.Direction.valueOf(parameter.getDirection()));
-                    gatewayClient.addIntent(contract.INTENT_ACTION, action);
+                    gatewayClient.publishIntent(contract.INTENT_ACTION, action);
                 }
             }
         }
@@ -98,7 +98,7 @@ public class BlindsAgent {
 
     private void connectRemoteServices(BlindsDefinition... blindsDefinitions) {
         for (BlindsDefinition blindsDefinition : blindsDefinitions) {
-            gatewayClient.addIntent(managerContract.INTENT_ADD, blindsDefinition);
+            gatewayClient.publishIntent(managerContract.INTENT_ADD, blindsDefinition);
         }
     }
 

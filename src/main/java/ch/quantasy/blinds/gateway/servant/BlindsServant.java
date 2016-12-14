@@ -42,7 +42,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
             BlindsAction blindsAction = getMapper().readValue(payload, BlindsAction.class);
             if (blindsAction.getDirection() == BlindsAction.Direction.stop) {
                 DeviceSelectedState selectedState = new DeviceSelectedState((short) 1, false);
-                addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), selectedState);
+                publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), selectedState);
             }
             if (blindsAction.getDirection() == BlindsAction.Direction.up) {
                 DeviceState desiredState = new DeviceState(true, false);
@@ -52,23 +52,23 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                     }
                     while (this.state == null || this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, false);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
                     Thread.sleep(50);
                     while (this.state == null || this.state.getRelay2()) {
                         DeviceSelectedState directionState = new DeviceSelectedState((short) 2, false);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
                         synchronizationObject.wait(1000);
                     }
                     Thread.sleep(50);
                     while (this.state == null || !this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, true);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
                     DeviceMonoflopParameters stopMonoflop = new DeviceMonoflopParameters((short) 1, true, 1000 * 180);
-                    addIntent(dualRelayServiceContract.INTENT_MONOFLOP, stopMonoflop);
+                    publishIntent(dualRelayServiceContract.INTENT_MONOFLOP, stopMonoflop);
                 }
 
             }
@@ -80,25 +80,25 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                     }
                     while (this.state == null || this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, false);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
                     Thread.sleep(50);
                     while (this.state == null || !this.state.getRelay2()) {
                         DeviceSelectedState directionState = new DeviceSelectedState((short) 2, true);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), directionState);
                         synchronizationObject.wait(1000);
                     }
                     Thread.sleep(50);
                     while (this.state == null || !this.state.getRelay1()) {
                         DeviceSelectedState powerState = new DeviceSelectedState((short) 1, true);
-                        addIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
+                        publishIntent(dualRelayServiceContract.INTENT_SELECTED_STATE + "/blindsServant" + blindsDefinition.getId(), powerState);
                         synchronizationObject.wait(1000);
                     }
                     DeviceMonoflopParameters stopMonoflop = new DeviceMonoflopParameters((short) 1, true, 1000 * 180);
                     DeviceMonoflopParameters directionMonoflop = new DeviceMonoflopParameters((short) 2, true, 1000 * 200);
-                    addIntent(dualRelayServiceContract.INTENT_MONOFLOP, stopMonoflop);
-                    addIntent(dualRelayServiceContract.INTENT_MONOFLOP, directionMonoflop);
+                    publishIntent(dualRelayServiceContract.INTENT_MONOFLOP, stopMonoflop);
+                    publishIntent(dualRelayServiceContract.INTENT_MONOFLOP, directionMonoflop);
                 }
 
             }
@@ -106,7 +106,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
         });
         connect();
 
-        addDescription(getContract().INTENT_ACTION, "direction: [up|down|stop]");
+        publishDescription(getContract().INTENT_ACTION, "direction: [up|down|stop]");
     }
 
     public BlindsDefinition getDefinition() {

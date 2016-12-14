@@ -33,19 +33,19 @@ public class ManagerService extends GatewayClient<BlindsManagerContract> impleme
         });
         connect();
 
-        addDescription(getContract().INTENT_ADD, "id: <String> \n dualRelayId: <String>");
-        addDescription(getContract().INTENT_REMOVE, "id: <String>");
-        addDescription(getContract().STATUS_BLINDS+"<id>", "id: <String> \n dualRelayId: <String>");
+        publishDescription(getContract().INTENT_ADD, "id: <String> \n dualRelayId: <String>");
+        publishDescription(getContract().INTENT_REMOVE, "id: <String>");
+        publishDescription(getContract().STATUS_BLINDS+"<id>", "id: <String> \n dualRelayId: <String>");
     }
 
     @Override
     public void blindsAdded(BlindsDefinition definition) {
-            addStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),definition);
+            publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),definition);
     }
 
     @Override
     public void blindsRemoved(BlindsDefinition definition) {
-            addStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),null);
+            publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),null);
     }
 
 }
