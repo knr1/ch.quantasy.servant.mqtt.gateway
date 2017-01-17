@@ -6,7 +6,6 @@
 package ch.quantasy.blinds;
 
 import ch.quantasy.blinds.gateway.service.blinds.ManagerService;
-import ch.quantasy.blinds.manager.BlindsManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.URI;

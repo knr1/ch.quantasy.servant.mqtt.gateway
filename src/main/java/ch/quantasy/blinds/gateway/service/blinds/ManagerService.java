@@ -35,16 +35,16 @@ public class ManagerService extends GatewayClient<BlindsManagerContract> impleme
 
         publishDescription(getContract().INTENT_ADD, "id: <String> \n dualRelayId: <String>");
         publishDescription(getContract().INTENT_REMOVE, "id: <String>");
-        publishDescription(getContract().STATUS_BLINDS+"<id>", "id: <String> \n dualRelayId: <String>");
+        publishDescription(getContract().STATUS_BLINDS+"<id>", "id: <String> \n dualRelayID: <String>");
     }
 
     @Override
-    public void blindsAdded(BlindsDefinition definition) {
+    public void ledStripAdded(BlindsDefinition definition) {
             publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),definition);
     }
 
     @Override
-    public void blindsRemoved(BlindsDefinition definition) {
+    public void ledStripRemoved(BlindsDefinition definition) {
             publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),null);
     }
 

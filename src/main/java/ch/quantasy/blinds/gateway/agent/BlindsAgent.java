@@ -84,6 +84,7 @@ public class BlindsAgent {
 
                 BlindsParameter[] parameters = gatewayClient.getMapper().readValue(mm, BlindsParameter[].class);
                 BlindsParameter parameter = parameters[0];
+                System.out.println("BlindsParameter: "+parameter);
                 BlindsServantContract contract = blindsContractMap.get(parameter.getBlindsId());
                 if (contract != null) {
                     BlindsAction action = new BlindsAction(BlindsAction.Direction.valueOf(parameter.getDirection()));
@@ -103,6 +104,11 @@ public class BlindsAgent {
     }
 
     static class BlindsParameter {
+
+        @Override
+        public String toString() {
+            return "BlindsParameter{" + "blindsId=" + blindsId + ", direction=" + direction + '}';
+        }
 
         private String blindsId;
         private String direction;

@@ -10,6 +10,6 @@ package ch.quantasy.blinds.manager;
  * @author reto
  */
 public interface BlindsManagerCallback {
-    public void blindsAdded(BlindsDefinition definition);
-    public void blindsRemoved(BlindsDefinition definition);
+    public void ledStripAdded(BlindsDefinition definition);
+    public void ledStripRemoved(BlindsDefinition definition);
 }

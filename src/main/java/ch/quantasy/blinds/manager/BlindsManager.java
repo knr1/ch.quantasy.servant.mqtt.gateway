@@ -31,7 +31,7 @@ public class BlindsManager {
             return;
         try {
             blindsServantMap.put(definition.getId(),new BlindsServant(mqttURI, definition));
-            callback.blindsAdded(definition);
+            callback.ledStripAdded(definition);
         } catch (MqttException ex) {
             Logger.getLogger(BlindsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,7 +44,7 @@ public class BlindsManager {
             } catch (MqttException ex) {
                 Logger.getLogger(BlindsManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            callback.blindsRemoved(servant.getDefinition());
+            callback.ledStripRemoved(servant.getDefinition());
         }
     }
 }
