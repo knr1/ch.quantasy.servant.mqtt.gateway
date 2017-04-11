@@ -106,7 +106,6 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
         });
         connect();
 
-        publishDescription(getContract().INTENT_ACTION, "direction: [up|down|stop]");
     }
 
     public BlindsDefinition getDefinition() {

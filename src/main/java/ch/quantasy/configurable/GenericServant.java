@@ -7,6 +7,8 @@ package ch.quantasy.configurable;
 
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -32,6 +34,7 @@ public class GenericServant {
         gatewayClient = new GatewayClient<>(mqttURI, "ConfigurableServant" + id, new GenericServantContract("ConfigurableServant", id));
         subscriptions = new TreeMap<>();
         publications = new TreeMap<>();
+        gatewayClient.connect();
     }
 
     /**
@@ -42,6 +45,10 @@ public class GenericServant {
      */
     public void addSubscription(String id, String topic) {
         subscriptions.put(id, topic);
+        gatewayClient.subscribe(topic, (topicIn, payload) -> {
+            JsonNode node = gatewayClient.getMapper().readTree(payload);
+            System.out.println("Node: " + node);
+        });
     }
 
     public void removeSubscription(String id) {
@@ -84,15 +91,16 @@ public class GenericServant {
         }
     }
 
-    public static void main(String[] args) throws MqttException {
+    public static void main(String[] args) throws MqttException, IOException {
         URI mqttURI = URI.create("tcp://127.0.0.1:1883");
 
         GenericServant s = new GenericServant(mqttURI, computerName);
-        s.addSubscription("motion1", "TF/MotionDetection/ASDF/E/motionDetected");
-        s.addSubscription("motion2", "TF/MotionDetection/JKLÖ/E/motionDetected");
-        s.addPublication("timer", "Timer/Ticky/prisma/tick");
+        s.addSubscription("Manager", "TF/#");
+        // s.addSubscription("motion1", "TF/MotionDetection/ASDF/E/motionDetected");
+        // s.addSubscription("motion2", "TF/MotionDetection/JKLÖ/E/motionDetected");
+        // s.addPublication("timer", "Timer/Ticky/prisma/tick");
         System.out.println(s.toString());
-
+        System.in.read();
     }
 
 }

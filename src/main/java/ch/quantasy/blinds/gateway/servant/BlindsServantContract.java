@@ -6,6 +6,7 @@
 package ch.quantasy.blinds.gateway.servant;
 
 import ch.quantasy.blinds.gateway.BlindsContract;
+import java.util.Map;
 
 /**
  *
@@ -24,6 +25,11 @@ public class BlindsServantContract extends BlindsContract{
         INTENT_ACTION=INTENT+"/"+ACTION;
         STATUS_ACTION=STATUS+"/"+ACTION;
         EVENT_ACTION=EVENT+"/"+ACTION;
+    }
+
+    @Override
+    protected void describe(Map<String, String> descriptions) {
+        descriptions.put(INTENT_ACTION, "direction: [up|down|stop]");
     }
     
 }

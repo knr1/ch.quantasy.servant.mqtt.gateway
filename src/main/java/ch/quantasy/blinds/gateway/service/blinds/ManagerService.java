@@ -32,10 +32,6 @@ public class ManagerService extends GatewayClient<BlindsManagerContract> impleme
             manager.removeBlinds(id);
         });
         connect();
-
-        publishDescription(getContract().INTENT_ADD, "id: <String> \n dualRelayId: <String>");
-        publishDescription(getContract().INTENT_REMOVE, "id: <String>");
-        publishDescription(getContract().STATUS_BLINDS+"<id>", "id: <String> \n dualRelayID: <String>");
     }
 
     @Override

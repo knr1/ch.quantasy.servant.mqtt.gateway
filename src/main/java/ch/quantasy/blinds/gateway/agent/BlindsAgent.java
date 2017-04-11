@@ -67,7 +67,7 @@ public class BlindsAgent {
 
     public BlindsAgent(URI mqttURI) throws MqttException {
         managerContract = new BlindsManagerContract("Manager");
-        gatewayClient = new GatewayClient(mqttURI, "44508uf450n", new ClientContract("Agent", "Blinds", "blindsAgent01"));
+        gatewayClient = new GatewayClient(mqttURI, "44508uf450n", new BlindsAgentContract("Agent", "Blinds", "blindsAgent01"));
         connectRemoteServices(new BlindsDefinition("EG-01", "kN8"));
         connectRemoteServices(new BlindsDefinition("EG-02", "kMM"));
         connectRemoteServices(new BlindsDefinition("EG-03", "kDc"));
