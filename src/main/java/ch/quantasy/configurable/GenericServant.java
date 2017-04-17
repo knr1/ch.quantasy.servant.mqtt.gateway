@@ -11,7 +11,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +49,19 @@ public class GenericServant {
         subscriptions.put(id, topic);
         gatewayClient.subscribe(topic, (topicIn, payload) -> {
             JsonNode node = gatewayClient.getMapper().readTree(payload);
-            System.out.println("Node: " + node);
+            System.out.println("Topic: " + topicIn + "    Node: " + node);
+            JsonNode matchingNode = node.get(0).at("/value"); //First element in array, field  '/value' oder explizit
+            //JsonNode matchingNode = node.get(0).get("value"); //First element in array, field  'value'
+            
+            System.out.println("Matching Node: " + matchingNode);
+
+            Iterator<JsonNode> innerNodeIterator = node.elements();
+            while (innerNodeIterator.hasNext()) {
+                JsonNode innerNode = innerNodeIterator.next();
+                System.out.println("InnerNode: " + innerNode);
+
+            }
+
         });
     }
 
@@ -95,7 +109,7 @@ public class GenericServant {
         URI mqttURI = URI.create("tcp://127.0.0.1:1883");
 
         GenericServant s = new GenericServant(mqttURI, computerName);
-        s.addSubscription("Manager", "TF/#");
+        s.addSubscription("All", "Timer/Tick/prisma/E/tick/pipipi");
         // s.addSubscription("motion1", "TF/MotionDetection/ASDF/E/motionDetected");
         // s.addSubscription("motion2", "TF/MotionDetection/JKLÖ/E/motionDetected");
         // s.addPublication("timer", "Timer/Ticky/prisma/tick");

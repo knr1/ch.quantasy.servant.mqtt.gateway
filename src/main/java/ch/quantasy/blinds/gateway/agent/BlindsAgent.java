@@ -46,7 +46,7 @@ import ch.quantasy.blinds.gateway.servant.BlindsAction;
 import ch.quantasy.blinds.gateway.servant.BlindsServantContract;
 import ch.quantasy.blinds.gateway.service.blinds.BlindsManagerContract;
 import ch.quantasy.blinds.manager.BlindsDefinition;
-import ch.quantasy.mqtt.gateway.client.ClientContract;
+import ch.quantasy.mqtt.gateway.client.AyamlClientContract;
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
 import java.net.URI;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -63,7 +63,7 @@ public class BlindsAgent {
     private final Map<String, BlindsServantContract> blindsContractMap;
     private final BlindsManagerContract managerContract;
 
-    private final GatewayClient<ClientContract> gatewayClient;
+    private final GatewayClient<BlindsAgentContract> gatewayClient;
 
     public BlindsAgent(URI mqttURI) throws MqttException {
         managerContract = new BlindsManagerContract("Manager");
