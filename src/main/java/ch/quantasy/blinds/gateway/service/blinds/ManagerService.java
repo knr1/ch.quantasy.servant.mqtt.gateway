@@ -35,12 +35,12 @@ public class ManagerService extends GatewayClient<BlindsManagerContract> impleme
     }
 
     @Override
-    public void ledStripAdded(BlindsDefinition definition) {
+    public void blindsAdded(BlindsDefinition definition) {
             publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),definition);
     }
 
     @Override
-    public void ledStripRemoved(BlindsDefinition definition) {
+    public void blindsRemoved(BlindsDefinition definition) {
             publishStatus(getContract().STATUS_BLINDS+"/"+definition.getId(),null);
     }
 

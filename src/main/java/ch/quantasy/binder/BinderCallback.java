@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.quantasy.blinds.manager;
+package ch.quantasy.binder;
 
 /**
  *
  * @author reto
  */
-public interface BlindsManagerCallback {
-    public void blindsAdded(BlindsDefinition definition);
-    public void blindsRemoved(BlindsDefinition definition);
+public interface BinderCallback {
+    
 }
