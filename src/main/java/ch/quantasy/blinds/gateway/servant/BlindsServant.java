@@ -19,6 +19,7 @@ import ch.quantasy.gateway.message.dualRelay.RelayStateStatus;
 import java.util.HashSet;
 import java.net.URI;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -50,13 +51,22 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
             }
         });
         subscribe(getContract().INTENT + "/#", (topic, payload) -> {
-            Set<BlindsServantIntent> blindsIntents = toMessageSet(payload, BlindsServantIntent.class);
+            SortedSet<BlindsServantIntent> blindsIntents = new TreeSet(toMessageSet(payload, BlindsServantIntent.class));
             for (BlindsServantIntent blindsIntent : blindsIntents) {
                 if (blindsIntent != null) {
                     if (blindsIntent.getDirection() == BlindsDirection.stop) {
-                        DeviceSelectedRelayState selectedState1 = new DeviceSelectedRelayState((short) 1, false);
-                        intent.selectedRelayStates.add(selectedState1);
-                        super.getPublishingCollector().readyToPublish(dualRelayServiceContract.INTENT + "/blindsServant" + blindsDefinition.getId(), intent);
+                        synchronized (synchronizationObject) {
+                            if (this.state != null && !this.state.getRelay1()) {
+                                return;
+                            }
+                            while (this.state == null || this.state.getRelay1()) {
+                                DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, false);
+                                intent.selectedRelayStates.clear();
+                                intent.selectedRelayStates.add(powerState);
+                                super.getPublishingCollector().readyToPublish(dualRelayServiceContract.INTENT + "/blindsServant" + blindsDefinition.getId(), intent);
+                                synchronizationObject.wait(1000);
+                            }
+                        }
                     }
                     if (blindsIntent.getDirection() == BlindsDirection.up) {
                         DeviceRelayState desiredState = new DeviceRelayState(true, false);
@@ -114,7 +124,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                             }
                             Thread.sleep(100);
                             while (this.state == null || !this.state.getRelay1()) {
-                                DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, false);
+                                DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, true);
                                 DualRelayIntent dualRelayIntent = new DualRelayIntent();
                                 dualRelayIntent.selectedRelayStates.add(powerState);
                                 super.getPublishingCollector().readyToPublish(dualRelayServiceContract.INTENT + "/blindsServant" + blindsDefinition.getId(), dualRelayIntent);

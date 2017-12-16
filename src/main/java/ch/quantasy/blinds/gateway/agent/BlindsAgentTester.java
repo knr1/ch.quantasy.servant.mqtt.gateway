@@ -84,7 +84,7 @@ public class BlindsAgentTester {
                 System.out.println("BlindsParameter: " + blindsDirection);
                BlindsServantContract contract = blindsContractMap.get(blindsDirection.id);
                 if (contract != null) {
-                    BlindsServantIntent intent=new BlindsServantIntent(blindsDirection.id,blindsDirection.direction);
+                    BlindsServantIntent intent=new BlindsServantIntent(blindsDirection.direction);
                     System.out.println("Sending intent to: "+contract.INTENT);
                     gatewayClient.getPublishingCollector().readyToPublish(contract.INTENT, intent);
                 }

@@ -15,9 +15,6 @@ import ch.quantasy.mqtt.gateway.client.message.annotations.StringForm;
  */
 public class BlindsServantIntent extends AnIntent {
 
-    @NonNull
-    @StringForm
-    private String id;
 
     @NonNull
     public BlindsDirection direction;
@@ -26,13 +23,8 @@ public class BlindsServantIntent extends AnIntent {
 
     }
 
-    public BlindsServantIntent(String id, BlindsDirection direction) {
-        this.id = id;
+    public BlindsServantIntent(BlindsDirection direction) {
         this.direction = direction;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public BlindsDirection getDirection() {
