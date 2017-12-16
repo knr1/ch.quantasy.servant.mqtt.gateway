@@ -6,30 +6,36 @@
 package ch.quantasy.blinds.gateway.servant;
 
 import ch.quantasy.blinds.gateway.BlindsContract;
+import ch.quantasy.blinds.gateway.message.BlindsDirectionEvent;
+import ch.quantasy.blinds.gateway.message.BlindsDefinitionStatus;
+import ch.quantasy.blinds.gateway.message.BlindsServantIntent;
 import java.util.Map;
 
 /**
  *
  * @author reto
  */
-public class BlindsServantContract extends BlindsContract{
-    
-    public final String ACTION;
-    public final String INTENT_ACTION;
-    public final String STATUS_ACTION;
+public class BlindsServantContract extends BlindsContract {
+
+    private final String ACTION;
+    private final String DEFINITION;
+    public final String STATUS_DEFINITION;
     public final String EVENT_ACTION;
-    
+
     public BlindsServantContract(String baseClass, String instance) {
         super(baseClass, instance);
-        ACTION="action";
-        INTENT_ACTION=INTENT+"/"+ACTION;
-        STATUS_ACTION=STATUS+"/"+ACTION;
-        EVENT_ACTION=EVENT+"/"+ACTION;
+        ACTION = "action";
+        DEFINITION = "definition";
+        STATUS_DEFINITION = STATUS + "/" + DEFINITION;
+        EVENT_ACTION = EVENT + "/" + ACTION;
+
+        addMessageTopic(INTENT, BlindsServantIntent.class);
+        addMessageTopic(STATUS_DEFINITION, BlindsDefinitionStatus.class);
+        addMessageTopic(EVENT_ACTION, BlindsDirectionEvent.class);
     }
 
     @Override
     protected void describe(Map<String, String> descriptions) {
-        descriptions.put(INTENT_ACTION, "direction: [up|down|stop]");
     }
-    
+
 }

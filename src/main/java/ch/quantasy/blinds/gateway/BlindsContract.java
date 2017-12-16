@@ -5,14 +5,14 @@
  */
 package ch.quantasy.blinds.gateway;
 
-import ch.quantasy.mqtt.gateway.client.AyamlClientContract;
+import ch.quantasy.mqtt.gateway.client.contract.AyamlServiceContract;
 import java.util.Map;
 
 /**
  *
  * @author reto
  */
-public abstract class BlindsContract extends AyamlClientContract {
+public abstract class BlindsContract extends AyamlServiceContract {
 
     public BlindsContract(String baseClass, String instance) {
         super("Blinds", baseClass, instance);

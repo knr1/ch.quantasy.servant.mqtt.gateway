@@ -6,6 +6,8 @@
 package ch.quantasy.blinds.gateway.service.blinds;
 
 import ch.quantasy.blinds.gateway.BlindsContract;
+import ch.quantasy.blinds.gateway.message.BlindsDefinitionStatus;
+import ch.quantasy.blinds.gateway.message.BlindsManagerIntent;
 import java.util.Map;
 
 /**
@@ -41,13 +43,9 @@ public class BlindsManagerContract extends BlindsContract {
 
         BLINDS = "Blinds";
         STATUS_BLINDS = STATUS + "/" + BLINDS;
-    }
-
-    @Override
-    protected void describe(Map<String, String> descriptions) {
-        descriptions.put(INTENT_ADD, "id: <String> \n dualRelayId: <String>");
-        descriptions.put(INTENT_REMOVE, "id: <String>");
-        descriptions.put(STATUS_BLINDS + "<id>", "id: <String> \n dualRelayID: <String>");
+        
+        addMessageTopic(INTENT, BlindsManagerIntent.class);
+        addMessageTopic(STATUS_BLINDS, BlindsDefinitionStatus.class);
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package ch.quantasy.blinds.manager;
 
+import ch.quantasy.blinds.gateway.message.BlindsDefinition;
 import ch.quantasy.blinds.gateway.servant.BlindsServant;
 import java.net.URI;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class BlindsManager {
         this.mqttURI=mqttURI;
         blindsServantMap=new HashMap<>();
     }
+    
     public void addBlinds(BlindsDefinition definition){
         if(blindsServantMap.containsKey(definition.getId()))
             return;

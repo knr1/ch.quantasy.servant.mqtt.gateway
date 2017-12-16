@@ -5,6 +5,8 @@
  */
 package ch.quantasy.blinds.manager;
 
+import ch.quantasy.blinds.gateway.message.BlindsDefinition;
+
 /**
  *
  * @author reto

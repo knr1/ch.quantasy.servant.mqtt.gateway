@@ -5,7 +5,7 @@
  */
 package ch.quantasy.blinds;
 
-import ch.quantasy.blinds.gateway.service.blinds.ManagerService;
+import ch.quantasy.blinds.gateway.service.blinds.BlindsManagerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.URI;
@@ -26,7 +26,7 @@ public class BliMqWay {
         System.out.printf("\n%s will be used as broker address.\n", mqttURI);
         
 
-        ManagerService managerService = new ManagerService(mqttURI);
+        BlindsManagerService managerService = new BlindsManagerService(mqttURI);
         System.out.println("" + managerService);
         System.in.read();
     }

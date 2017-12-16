@@ -5,14 +5,14 @@
  */
 package ch.quantasy.binder;
 
-import ch.quantasy.mqtt.gateway.client.AyamlClientContract;
+import ch.quantasy.mqtt.gateway.client.contract.AyamlServiceContract;
 import java.util.Map;
 
 /**
  *
  * @author reto
  */
-public class BinderServiceContract extends AyamlClientContract {
+public class BinderServiceContract extends AyamlServiceContract {
 
     public BinderServiceContract(String baseClass, String instance) {
         super("Binder", baseClass, instance);

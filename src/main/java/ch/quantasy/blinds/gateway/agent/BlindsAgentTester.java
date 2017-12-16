@@ -61,25 +61,19 @@ import java.util.TreeSet;
  *
  * @author reto
  */
-public class BlindsAgent {
+public class BlindsAgentTester {
 
     private final Map<String, BlindsServantContract> blindsContractMap;
     private final BlindsManagerContract managerContract;
 
     private final GatewayClient<BlindsAgentContract> gatewayClient;
 
-    public BlindsAgent(URI mqttURI) throws MqttException {
+    public BlindsAgentTester(URI mqttURI) throws MqttException {
         managerContract = new BlindsManagerContract("Manager");
         gatewayClient = new GatewayClient(mqttURI, "44508uf450n", new BlindsAgentContract("Agent", "Blinds", "blindsAgent01"));
-        connectRemoteServices(new BlindsDefinition("EG-01", "kN8"));
-        connectRemoteServices(new BlindsDefinition("EG-02", "kMM"));
-        connectRemoteServices(new BlindsDefinition("EG-03", "kDc"));
-        connectRemoteServices(new BlindsDefinition("EG-04", "kJy"));
+        connectRemoteServices(new BlindsDefinition("EG-01", "bVu"));
         blindsContractMap = new HashMap<>();
         blindsContractMap.put("EG-01", new BlindsServantContract("BlindsServant", "EG-01"));
-        blindsContractMap.put("EG-02", new BlindsServantContract("BlindsServant", "EG-02"));
-        blindsContractMap.put("EG-03", new BlindsServantContract("BlindsServant", "EG-03"));
-        blindsContractMap.put("EG-04", new BlindsServantContract("BlindsServant", "EG-04"));
 
         gatewayClient.subscribe("WebView/RemoteSwitch/E/touched/blinds/#", new MessageReceiver() {
             @Override
@@ -87,10 +81,11 @@ public class BlindsAgent {
 
                 SortedSet<BlindsDirectionEvent> blindsDirections = new TreeSet(gatewayClient.toMessageSet(mm, BlindsDirectionEvent.class));
                 BlindsDirectionEvent blindsDirection = blindsDirections.last();
-                System.out.println("BlindsParameter: "+blindsDirection);
-                BlindsServantContract contract = blindsContractMap.get(blindsDirection.id);
+                System.out.println("BlindsParameter: " + blindsDirection);
+               BlindsServantContract contract = blindsContractMap.get(blindsDirection.id);
                 if (contract != null) {
                     BlindsServantIntent intent=new BlindsServantIntent(blindsDirection.id,blindsDirection.direction);
+                    System.out.println("Sending intent to: "+contract.INTENT);
                     gatewayClient.getPublishingCollector().readyToPublish(contract.INTENT, intent);
                 }
             }
@@ -102,7 +97,7 @@ public class BlindsAgent {
 
     private void connectRemoteServices(BlindsDefinition... blindsDefinitions) {
         for (BlindsDefinition blindsDefinition : blindsDefinitions) {
-            gatewayClient.getPublishingCollector().readyToPublish(managerContract.INTENT, new BlindsManagerIntent(BlindsManagerIntent.Action.add,blindsDefinition));
+            gatewayClient.getPublishingCollector().readyToPublish(managerContract.INTENT, new BlindsManagerIntent(BlindsManagerIntent.Action.add, blindsDefinition));
         }
     }
 
@@ -114,7 +109,7 @@ public class BlindsAgent {
             System.out.printf("Per default, 'tcp://127.0.0.1:1883' is chosen.\nYou can provide another address as first argument i.e.: tcp://iot.eclipse.org:1883\n");
         }
         System.out.printf("\n%s will be used as broker address.\n", mqttURI);
-        BlindsAgent agent = new BlindsAgent(mqttURI);
+        BlindsAgentTester agent = new BlindsAgentTester(mqttURI);
         System.in.read();
     }
 

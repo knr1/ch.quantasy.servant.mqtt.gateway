@@ -5,9 +5,8 @@
  */
 package ch.quantasy.binder.gateway.manager;
 
-import ch.quantasy.binder.BinderService;
 import ch.quantasy.binder.BinderCallback;
-import ch.quantasy.blinds.manager.BlindsDefinition;
+import ch.quantasy.blinds.gateway.message.BlindsDefinition;
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
 import java.net.URI;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -34,14 +33,14 @@ public class BinderManager extends GatewayClient<BinderManagerContract> implemen
         connect();
     }
 
-   // @Override
-    public void ledStripAdded(BlindsDefinition definition) {
-        publishStatus(getContract().STATUS_BLINDS + "/" + definition.getId(), definition);
-    }
-
-   // @Override
-    public void ledStripRemoved(BlindsDefinition definition) {
-        publishStatus(getContract().STATUS_BLINDS + "/" + definition.getId(), null);
-    }
+//   // @Override
+//    public void ledStripAdded(BlindsDefinition definition) {
+//        publishStatus(getContract().STATUS_BLINDS + "/" + definition.getId(), definition);
+//    }
+//
+//   // @Override
+//    public void ledStripRemoved(BlindsDefinition definition) {
+//        publishStatus(getContract().STATUS_BLINDS + "/" + definition.getId(), null);
+//    }
 
 }
