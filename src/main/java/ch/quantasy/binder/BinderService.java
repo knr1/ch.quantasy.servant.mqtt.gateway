@@ -6,14 +6,11 @@
 package ch.quantasy.binder;
 
 import ch.quantasy.binder.gateway.manager.BinderManager;
-import ch.quantasy.binder.gateway.manager.BinderManagerContract;
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -49,19 +46,19 @@ public class BinderService extends GatewayClient<BinderServiceContract> {
     public void addSubscription(String id, String topic) {
         subscriptions.put(id, topic);
         gatewayClient.subscribe(topic, (topicIn, payload) -> {
-            JsonNode node = gatewayClient.getMapper().readTree(payload);
-            System.out.println("Topic: " + topicIn + "    Node: " + node);
-            JsonNode matchingNode = node.get(0).at("/value"); //First element in array, field  '/value' oder explizit
+            //JsonNode node = gatewayClient.getMapper().readTree(payload);
+            //System.out.println("Topic: " + topicIn + "    Node: " + node);
+            //JsonNode matchingNode = node.get(0).at("/value"); //First element in array, field  '/value' oder explizit
             //JsonNode matchingNode = node.get(0).get("value"); //First element in array, field  'value'
 
-            System.out.println("Matching Node: " + matchingNode);
+            //System.out.println("Matching Node: " + matchingNode);
 
-            Iterator<JsonNode> innerNodeIterator = node.elements();
-            while (innerNodeIterator.hasNext()) {
-                JsonNode innerNode = innerNodeIterator.next();
-                System.out.println("InnerNode: " + innerNode);
+            //Iterator<JsonNode> innerNodeIterator = node.elements();
+            //while (innerNodeIterator.hasNext()) {
+            //    JsonNode innerNode = innerNodeIterator.next();
+            //    System.out.println("InnerNode: " + innerNode);
 
-            }
+            //}
 
         });
     }
@@ -91,11 +88,11 @@ public class BinderService extends GatewayClient<BinderServiceContract> {
     @Override
     public String toString() {
         String returnString = null;
-        try {
-            returnString = gatewayClient.getMapper().writeValueAsString(this);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(BinderService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       // try {
+       //     returnString = gatewayClient.getMapper().writeValueAsString(this);
+       // } catch (JsonProcessingException ex) {
+       //     Logger.getLogger(BinderService.class.getName()).log(Level.SEVERE, null, ex);
+       // }
         return returnString;
     }
 

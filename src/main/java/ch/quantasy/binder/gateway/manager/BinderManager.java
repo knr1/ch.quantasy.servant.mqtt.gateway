@@ -7,8 +7,10 @@ package ch.quantasy.binder.gateway.manager;
 
 import ch.quantasy.binder.BinderCallback;
 import ch.quantasy.blinds.gateway.message.BlindsDefinition;
+import ch.quantasy.blinds.gateway.message.BlindsManagerIntent;
 import ch.quantasy.mqtt.gateway.client.GatewayClient;
 import java.net.URI;
+import java.util.Set;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
@@ -22,13 +24,17 @@ public class BinderManager extends GatewayClient<BinderManagerContract> implemen
     public BinderManager(URI mqttURI) throws MqttException {
         super(mqttURI, "Binderxxx", new BinderManagerContract("BinderManager"));
         //this.binder = new BinderService(mqttURI,this);
-        subscribe(getContract().INTENT_ADD + "/#", (topic, payload) -> {
-            final BlindsDefinition definition = getMapper().readValue(payload, BlindsDefinition.class);
-            //    binder.addBlinds(definition);
-        });
-        subscribe(getContract().INTENT_REMOVE + "/#", (topic, payload) -> {
-            final String id = getMapper().readValue(payload, String.class);
-            //    binder.removeBlinds(id);
+        subscribe(getContract().INTENT + "/#", (topic, payload) -> {
+            Set<BlindsManagerIntent> definitions = toMessageSet(payload, BlindsManagerIntent.class);
+            for(BlindsManagerIntent intent:definitions){
+                if(intent.action==BlindsManagerIntent.Action.add){
+                    //    binder.addBlinds(definition);
+                }
+                if(intent.action==BlindsManagerIntent.Action.remove){
+                    //    binder.removeBlinds(definition);
+                }
+            }
+                    
         });
         connect();
     }
