@@ -56,10 +56,10 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                 if (blindsIntent != null) {
                     if (blindsIntent.getDirection() == BlindsDirection.stop) {
                         synchronized (synchronizationObject) {
-                            if (this.state != null && !this.state.getRelay1()) {
+                            if (this.state != null && !this.state.relay1) {
                                 return;
                             }
-                            while (this.state == null || this.state.getRelay1()) {
+                            while (this.state == null || this.state.relay1) {
                                 DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, false);
                                 intent.selectedRelayStates.clear();
                                 intent.selectedRelayStates.add(powerState);
@@ -74,7 +74,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                             if (this.state != null && this.state.equals(desiredState)) {
                                 return;
                             }
-                            while (this.state == null || this.state.getRelay1()) {
+                            while (this.state == null || this.state.relay1) {
                                 DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, false);
                                 intent.selectedRelayStates.clear();
                                 intent.selectedRelayStates.add(powerState);
@@ -82,7 +82,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                                 synchronizationObject.wait(1000);
                             }
                             Thread.sleep(100);
-                            while (this.state == null || this.state.getRelay2()) {
+                            while (this.state == null || this.state.relay2) {
                                 DeviceSelectedRelayState directionState = new DeviceSelectedRelayState((short) 2, false);
                                 intent.selectedRelayStates.clear();
                                 intent.selectedRelayStates.add(directionState);
@@ -90,7 +90,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                                 synchronizationObject.wait(1000);
                             }
                             Thread.sleep(100);
-                            while (this.state == null || !this.state.getRelay1()) {
+                            while (this.state == null || !this.state.relay1) {
                                 DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, true);
                                 intent.selectedRelayStates.clear();
                                 intent.selectedRelayStates.add(powerState);
@@ -107,7 +107,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                             if (this.state != null && this.state.equals(desiredState)) {
                                 return;
                             }
-                            while (this.state == null || this.state.getRelay1()) {
+                            while (this.state == null || this.state.relay1) {
                                 DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, false);
                                 DualRelayIntent dualRelayIntent = new DualRelayIntent();
                                 dualRelayIntent.selectedRelayStates.add(powerState);
@@ -115,7 +115,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                                 synchronizationObject.wait(1000);
                             }
                             Thread.sleep(100);
-                            while (this.state == null || !this.state.getRelay2()) {
+                            while (this.state == null || !this.state.relay2) {
                                 DeviceSelectedRelayState directionState = new DeviceSelectedRelayState((short) 2, true);
                                 DualRelayIntent dualRelayIntent = new DualRelayIntent();
                                 dualRelayIntent.selectedRelayStates.add(directionState);
@@ -123,7 +123,7 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
                                 synchronizationObject.wait(1000);
                             }
                             Thread.sleep(100);
-                            while (this.state == null || !this.state.getRelay1()) {
+                            while (this.state == null || !this.state.relay1) {
                                 DeviceSelectedRelayState powerState = new DeviceSelectedRelayState((short) 1, true);
                                 DualRelayIntent dualRelayIntent = new DualRelayIntent();
                                 dualRelayIntent.selectedRelayStates.add(powerState);

@@ -8,6 +8,7 @@ package ch.quantasy.blinds.gateway.service.blinds;
 import ch.quantasy.blinds.gateway.BlindsContract;
 import ch.quantasy.blinds.gateway.message.BlindsDefinitionStatus;
 import ch.quantasy.blinds.gateway.message.BlindsManagerIntent;
+import ch.quantasy.mqtt.gateway.client.message.Message;
 import java.util.Map;
 
 /**
@@ -43,9 +44,12 @@ public class BlindsManagerContract extends BlindsContract {
 
         BLINDS = "Blinds";
         STATUS_BLINDS = STATUS + "/" + BLINDS;
-        
-        addMessageTopic(INTENT, BlindsManagerIntent.class);
-        addMessageTopic(STATUS_BLINDS, BlindsDefinitionStatus.class);
+    }
+
+    @Override
+    public void setMessageTopics(Map<String, Class<? extends Message>> messageTopicMap) {
+        messageTopicMap.put(INTENT, BlindsManagerIntent.class);
+        messageTopicMap.put(STATUS_BLINDS, BlindsDefinitionStatus.class);
     }
 
 }

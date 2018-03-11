@@ -9,6 +9,7 @@ import ch.quantasy.blinds.gateway.BlindsContract;
 import ch.quantasy.blinds.gateway.message.BlindsDirectionEvent;
 import ch.quantasy.blinds.gateway.message.BlindsDefinitionStatus;
 import ch.quantasy.blinds.gateway.message.BlindsServantIntent;
+import ch.quantasy.mqtt.gateway.client.message.Message;
 import java.util.Map;
 
 /**
@@ -29,13 +30,13 @@ public class BlindsServantContract extends BlindsContract {
         STATUS_DEFINITION = STATUS + "/" + DEFINITION;
         EVENT_ACTION = EVENT + "/" + ACTION;
 
-        addMessageTopic(INTENT, BlindsServantIntent.class);
-        addMessageTopic(STATUS_DEFINITION, BlindsDefinitionStatus.class);
-        addMessageTopic(EVENT_ACTION, BlindsDirectionEvent.class);
     }
 
     @Override
-    protected void describe(Map<String, String> descriptions) {
+    public void setMessageTopics(Map<String, Class<? extends Message>> messageTopicMap) {
+        messageTopicMap.put(INTENT, BlindsServantIntent.class);
+        messageTopicMap.put(STATUS_DEFINITION, BlindsDefinitionStatus.class);
+        messageTopicMap.put(EVENT_ACTION, BlindsDirectionEvent.class);
     }
 
 }
