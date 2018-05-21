@@ -85,7 +85,7 @@ public class BlindsAgent {
             @Override
             public void messageReceived(String topic, byte[] mm) throws Exception {
 
-                SortedSet<BlindsDirectionEvent> blindsDirections = new TreeSet(gatewayClient.toMessageSet(mm, BlindsDirectionEvent.class));
+                SortedSet<BlindsDirectionEvent> blindsDirections = gatewayClient.toMessageSet(mm, BlindsDirectionEvent.class);
                 BlindsDirectionEvent blindsDirection = blindsDirections.last();
                 System.out.println("BlindsParameter: "+blindsDirection);
                 BlindsServantContract contract = blindsContractMap.get(blindsDirection.id);

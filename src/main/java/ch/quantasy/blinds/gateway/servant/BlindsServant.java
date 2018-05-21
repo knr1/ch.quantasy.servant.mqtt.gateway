@@ -45,12 +45,12 @@ public class BlindsServant extends GatewayClient<BlindsServantContract> {
 
         subscribe(this.dualRelayServiceContract.STATUS_STATE, (String topic, byte[] payload) -> {
             synchronized (synchronizationObject) {
-                state = new TreeSet<RelayStateStatus>(toMessageSet(payload, RelayStateStatus.class)).last().value;
+                state = toMessageSet(payload, RelayStateStatus.class).last().value;
                 synchronizationObject.notifyAll();
             }
         });
         subscribe(getContract().INTENT + "/#", (topic, payload) -> {
-            SortedSet<BlindsServantIntent> blindsIntents = new TreeSet(toMessageSet(payload, BlindsServantIntent.class));
+            SortedSet<BlindsServantIntent> blindsIntents = toMessageSet(payload, BlindsServantIntent.class);
             for (BlindsServantIntent blindsIntent : blindsIntents) {
                 if (blindsIntent != null) {
                     if (blindsIntent.getDirection() == BlindsDirection.stop) {
